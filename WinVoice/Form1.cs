@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Media;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -69,7 +64,7 @@ namespace WinVoice
 
             if (m.Msg == 0x219) // Если событие -- это подключение USB
             {
-                if (m.WParam.ToInt32() == 0x8000 || m.WParam.ToInt32() == 0xffff) 
+                if (m.WParam.ToInt32() == 0x8000) 
                 {
                     try
                     {
