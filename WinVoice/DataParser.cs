@@ -28,10 +28,6 @@ namespace WinVoice
         /// </summary>
         public int height = 70;
         /// <summary>
-        /// Смещение вверх
-        /// </summary>
-        public int shiftUp = 0;
-        /// <summary>
         /// Время показа картинки
         /// </summary>
         public int ShowImageTime = 2500;
@@ -59,7 +55,7 @@ namespace WinVoice
             this.path = path;
             var file = File.ReadAllLines(path);
 
-            for (int i = 4; i < file.Length; i++) // инициализация счётчика
+            for (int i = 3; i < file.Length; i++) // инициализация счётчика
                 if (!isEmptyLine(file[i])) count++;
             count = (int)Math.Ceiling(count / 2f);
 
@@ -79,17 +75,16 @@ namespace WinVoice
             {
                 width = int.Parse(file[0].Split('=')[1]);
                 height = int.Parse(file[1].Split('=')[1]);
-                shiftUp = int.Parse(file[2].Split('=')[1]);
-                ShowImageTime = int.Parse(file[3].Split('=')[1]); ;
+                ShowImageTime = int.Parse(file[2].Split('=')[1]);
             }
             catch
             {
                 parseErr();
             }
-            for (int i = 4; i < file.Length; i++)
+            for (int i = 3; i < file.Length; i++)
             {
                 if (isEmptyLine(file[i])) continue; //  если строка не пуста
-                if(!File.Exists(file[i])) parseErr();// и файл существует
+                if(!((file[i].Length > 0 && file[i][0] == '#') || File.Exists(file[i]))) parseErr();// и файл существует и первый символ != '#'
                 if (isWAV(file[i])) voice[c] = file[i];
                 else img[c] = file[i];
 
@@ -135,7 +130,7 @@ namespace WinVoice
         public void parseErr()
         {
             MessageBox.Show("Проверьте настройки в Settings.txt и перезапустите приложение", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            Application.Exit();
+            Environment.Exit(0);
         }
 
     }

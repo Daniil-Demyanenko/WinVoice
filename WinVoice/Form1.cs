@@ -52,13 +52,13 @@ namespace WinVoice
         private Bitmap setBitmapSize(string path) 
         {
             Bitmap picture = new Bitmap(path);
-            int kW = picture.Width / DP.width; // Коэфициент для расчёта уменьшения picture по ширине
+            float kW = picture.Width / (float)DP.width; // Коэфициент для расчёта уменьшения picture по ширине
             if (picture.Height / kW <= DP.height)
-                return new Bitmap(picture, new Size(picture.Width / kW, picture.Height / kW));
+                return new Bitmap(picture, new Size((int)(picture.Width / kW), (int)(picture.Height / kW)));
             else
             {
-                int kH = picture.Height / DP.height; // Коэфициент для расчёта уменьшения picture по высоте
-                return new Bitmap(picture, new Size(picture.Width / kW, picture.Height / kW));
+                float kH = picture.Height / (float)DP.height; // Коэфициент для расчёта уменьшения picture по высоте
+                return new Bitmap(picture, new Size((int)(picture.Width / kH), (int)(picture.Height / kH)));
             }
         }
 
@@ -69,17 +69,16 @@ namespace WinVoice
 
             if (m.Msg == 0x219) // Если событие -- это подключение USB
             {
-                if (m.WParam.ToInt32() == 0x8000 || m.WParam.ToInt32() == 0x8005) 
+                if (m.WParam.ToInt32() == 0x8000 || m.WParam.ToInt32() == 0xffff) 
                 {
                     try
                     {
                         DP.randomize();
-                        bool play = !(DP.Random_Voice[0] == '#');
                         bool show = !(DP.Random_img[0] == '#');
                         if (show) pictureBox1.Image = setBitmapSize(DP.Random_img);
-                        if (play) new SoundPlayer(DP.Random_Voice).Play();
+                        new SoundPlayer(DP.Random_Voice).Play();
 
-                        setWindowPosition();
+                        if (show) setWindowPosition();
                         this.TopMost = true;
                         if (show) this.Show();
                         timer();
