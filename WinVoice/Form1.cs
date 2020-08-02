@@ -57,6 +57,7 @@ namespace WinVoice
                     new SoundPlayer(@"src\voice\11.wav").Play();
                     this.TopMost = true;
                     this.Show();
+                    timer();
                     this.TopMost = false;
                 }
 
@@ -65,6 +66,13 @@ namespace WinVoice
 
         private void Form1_Shown(object sender, EventArgs e)
         {
+            this.Hide();
+        }
+
+        //Таймер для скрытия формы через время
+        private async void timer() 
+        {
+            await Task.Delay(2500);
             this.Hide();
         }
     }
