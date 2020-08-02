@@ -13,6 +13,10 @@ namespace WinVoice
 {
     public partial class Form1 : Form
     {
+        private const int time_for_show = 2500;
+        private const int max_bitmap_width = 400;
+        private const int max_bitmap_height = 60;
+
         public Form1()
         {
             InitializeComponent();
@@ -44,6 +48,19 @@ namespace WinVoice
             this.Location = pt;
         }
 
+        private Bitmap setBitmapSize(string path) 
+        {
+            Bitmap picture = new Bitmap(path);
+            int kW = picture.Width / max_bitmap_width; // Коэфициент для расчёта уменьшения picture по ширине
+            if (picture.Height / kW <= max_bitmap_height)
+                return new Bitmap(picture, new Size(picture.Width / kW, picture.Height / kW));
+            else
+            {
+                int kH = picture.Height / max_bitmap_height; // Коэфициент для расчёта уменьшения picture по высоте
+                return new Bitmap(picture, new Size(picture.Width / kW, picture.Height / kW));
+            }
+        }
+
         protected override void WndProc(ref Message m)
         {
             base.WndProc(ref m);
@@ -52,7 +69,8 @@ namespace WinVoice
             {
                 if (m.WParam.ToInt32() == 0x8000)
                 {
-                    pictureBox1.Image = new Bitmap(@"src\img\2.jpg");
+                    pictureBox1.Image = setBitmapSize(@"src\img\2.jpg");
+
                     setWindowPosition();
                     new SoundPlayer(@"src\voice\11.wav").Play();
                     this.TopMost = true;
@@ -72,7 +90,7 @@ namespace WinVoice
         //Таймер для скрытия формы через время
         private async void timer() 
         {
-            await Task.Delay(2500);
+            await Task.Delay(time_for_show);
             this.Hide();
         }
     }
