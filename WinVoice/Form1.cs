@@ -17,6 +17,7 @@ namespace WinVoice
         private const int max_bitmap_width = 400;
         private const int max_bitmap_height = 60;
 
+
         public Form1()
         {
             InitializeComponent();
@@ -33,6 +34,7 @@ namespace WinVoice
             this.Hide();
         }
 
+        // Настройка положения окна
         private void setWindowPosition()
         {
             //настройка размеров pictureBox
@@ -48,6 +50,7 @@ namespace WinVoice
             this.Location = pt;
         }
 
+        // Корректировка размеров Bitmap
         private Bitmap setBitmapSize(string path) 
         {
             Bitmap picture = new Bitmap(path);
@@ -61,11 +64,12 @@ namespace WinVoice
             }
         }
 
+        
         protected override void WndProc(ref Message m)
         {
             base.WndProc(ref m);
 
-            if (m.Msg == 0x219)
+            if (m.Msg == 0x219) // Если событие -- это подключение USB
             {
                 if (m.WParam.ToInt32() == 0x8000)
                 {
