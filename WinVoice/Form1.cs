@@ -14,10 +14,7 @@ namespace WinVoice
     public partial class Form1 : Form
     {
         private DataParser DP = new DataParser("Settings.txt"); 
-        private const int show_image_time = 2500;
-        private const int max_bitmap_width = 400;
-        private const int max_bitmap_height = 60;
-
+        
 
         public Form1()
         {
@@ -55,12 +52,12 @@ namespace WinVoice
         private Bitmap setBitmapSize(string path) 
         {
             Bitmap picture = new Bitmap(path);
-            int kW = picture.Width / max_bitmap_width; // Коэфициент для расчёта уменьшения picture по ширине
-            if (picture.Height / kW <= max_bitmap_height)
+            int kW = picture.Width / DP.width; // Коэфициент для расчёта уменьшения picture по ширине
+            if (picture.Height / kW <= DP.height)
                 return new Bitmap(picture, new Size(picture.Width / kW, picture.Height / kW));
             else
             {
-                int kH = picture.Height / max_bitmap_height; // Коэфициент для расчёта уменьшения picture по высоте
+                int kH = picture.Height / DP.height; // Коэфициент для расчёта уменьшения picture по высоте
                 return new Bitmap(picture, new Size(picture.Width / kW, picture.Height / kW));
             }
         }
@@ -72,7 +69,7 @@ namespace WinVoice
 
             if (m.Msg == 0x219) // Если событие -- это подключение USB
             {
-                if (m.WParam.ToInt32() == 0x8000)
+                if (m.WParam.ToInt32() == 0x8000 || m.WParam.ToInt32() == 0x8005) 
                 {
                     try
                     {
@@ -106,7 +103,7 @@ namespace WinVoice
         //Таймер для скрытия формы через время
         private async void timer() 
         {
-            await Task.Delay(show_image_time);
+            await Task.Delay(DP.ShowImageTime);
             this.Hide();
         }
     }
