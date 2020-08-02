@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,12 +17,11 @@ namespace WinVoice
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.Manual;
+            //установка положения окна внизу справа
             Point pt = Screen.PrimaryScreen.WorkingArea.Location;
             pt.Offset(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
             pt.Offset(-this.Width, -this.Height);
             this.Location = pt;
-
-            //this.Hide();
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -52,16 +52,20 @@ namespace WinVoice
             {
                 if (m.WParam.ToInt32() == 0x8000)
                 {
-                    //новое usb подключено
-                    MessageBox.Show("New dev connected");
-                }
-                if (m.WParam.ToInt32() == 0x8004)
-                {
-                    // usb отключено
-                    MessageBox.Show("Dev disconnected");
+                    pictureBox1.Image = new Bitmap(@"src\img\2.jpg");
+                    setWindowPosition();
+                    new SoundPlayer(@"src\voice\11.wav").Play();
+                    this.TopMost = true;
+                    this.Show();
+                    this.TopMost = false;
                 }
 
             }
+        }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            this.Hide();
         }
     }
 }
