@@ -74,14 +74,25 @@ namespace WinVoice
             {
                 if (m.WParam.ToInt32() == 0x8000)
                 {
-                    pictureBox1.Image = setBitmapSize(@"src\img\2.jpg");
+                    try
+                    {
+                        DP.randomize();
+                        bool play = !(DP.Random_Voice[0] == '#');
+                        bool show = !(DP.Random_img[0] == '#');
+                        if (show) pictureBox1.Image = setBitmapSize(DP.Random_img);
+                        if (play) new SoundPlayer(DP.Random_Voice).Play();
 
-                    setWindowPosition();
-                    new SoundPlayer(@"src\voice\11.wav").Play();
-                    this.TopMost = true;
-                    this.Show();
-                    timer();
-                    this.TopMost = false;
+                        setWindowPosition();
+                        this.TopMost = true;
+                        if (show) this.Show();
+                        timer();
+                        this.TopMost = false;
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message);
+                        DP.parseErr();
+                    }
                 }
 
             }

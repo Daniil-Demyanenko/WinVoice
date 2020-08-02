@@ -72,6 +72,7 @@ namespace WinVoice
         private void parse(string path)
         {
             int c = 0;
+            bool complite = false;
 
             string[] file = File.ReadAllLines(path);
             try
@@ -90,9 +91,10 @@ namespace WinVoice
                 if (isEmptyLine(file[i])) continue; //  если строка не пуста
                 if(!File.Exists(file[i])) parseErr();// и файл существует
                 if (isWAV(file[i])) voice[c] = file[i];
-                else img[i] = file[i];
+                else img[c] = file[i];
 
-                c++;
+                if(complite) c++;
+                complite = !complite;
             }
         }
 
