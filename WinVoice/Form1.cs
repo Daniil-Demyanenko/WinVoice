@@ -13,7 +13,8 @@ namespace WinVoice
 {
     public partial class Form1 : Form
     {
-        private const int time_for_show = 2500;
+        private DataParser DP = new DataParser("Settings.txt"); 
+        private const int show_image_time = 2500;
         private const int max_bitmap_width = 400;
         private const int max_bitmap_height = 60;
 
@@ -94,7 +95,7 @@ namespace WinVoice
         //Таймер для скрытия формы через время
         private async void timer() 
         {
-            await Task.Delay(time_for_show);
+            await Task.Delay(show_image_time);
             this.Hide();
         }
     }
