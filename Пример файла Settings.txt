@@ -1,0 +1,12 @@
+Width = 250
+Height = 200
+ShowImageTime = 3000
+
+src\img\2.jpg
+src\voice\1.wav
+
+src\img\1.jpg
+src\voice\2.wav
+
+src\voice\1.wav
+#
